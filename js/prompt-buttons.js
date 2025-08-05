@@ -11,14 +11,15 @@ export function setupPromptButtons(langSwitcher, sendBtn, footerBtn) {
   promptButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const selectedPrompt = btn.textContent;
-
+      console.log(promptButtons);
+      
       promptButtons.forEach(b => b.disabled = true);
       footerBtn[0].disabled = true;
       footerBtn[1].disabled = true;
       promptsSection.classList.add("fade-out");
 
       setTimeout(() => {
-        promptsSection.style.display = "none";
+        promptsSection.style.display = "none"; 
         chatboxMessages.style.display = "flex";
         input.classList.add("shrink");
         setTimeout(() => {
