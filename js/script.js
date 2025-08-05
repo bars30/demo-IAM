@@ -24,6 +24,8 @@ import { setupLanguageSwitcher } from './language-switcher.js';
 import { setupChatController } from './chat-controller.js';
 
 import { setupPromptButtons } from "./prompt-buttons.js";
+import { setupLangButtonListeners } from "./lang-button-listeners.js";
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -31,20 +33,17 @@ document.addEventListener("DOMContentLoaded", () => {
   restoreChatHistory();
   initFileManager();
   setupChatController();
-
+setupLangButtonListeners();
   
   const { langSwitcher } = setupLanguageSwitcher();
 
   const footerBtn = document.querySelectorAll(".footer-btn-cont button");
   console.log(langSwitcher);
  
+  let firstMessage = true;
 
 
-let firstMessage = true;
-
-
-
-
+  
 
   document.querySelectorAll(".lang-option").forEach(button => {
     button.addEventListener("click", () => {
@@ -55,14 +54,6 @@ let firstMessage = true;
       updateUIText();
     });
   });
-
-
-
-
-
-
-
-
 
   questionsBtn.addEventListener("click", () => {
     const footerPrompts = document.querySelector(".quick-prompts-footer");
@@ -79,44 +70,29 @@ let firstMessage = true;
     }
   });
 
+  const textarea = document.getElementById('chatbox-input');
 
-
-const textarea = document.getElementById('chatbox-input');
-
-textarea.addEventListener('input', function () {
-  this.style.height = 'auto'; 
-  this.style.height = Math.min(this.scrollHeight, 80) + 'px'; 
-});
-
-
-
-
-
-let chatState = "waitingUserQuestion"; 
-
-const chatboxInput = document.getElementById("chatbox-input");
-const sendBtn = document.querySelector(".chatbox-send-btn");
-
-
-
-
-setupPromptButtons(langSwitcher, sendBtn, footerBtn);
-
-
-const clearBtns = document.querySelectorAll('.chatbox-footer-btn.clear-btn');
-
-clearBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    
-    localStorage.removeItem('chatHistory');
-    location.reload();
+  textarea.addEventListener('input', function () {
+    this.style.height = 'auto'; 
+    this.style.height = Math.min(this.scrollHeight, 80) + 'px'; 
   });
-});
 
+  let chatState = "waitingUserQuestion"; 
 
+  const chatboxInput = document.getElementById("chatbox-input");
+  const sendBtn = document.querySelector(".chatbox-send-btn");
 
+  setupPromptButtons(langSwitcher, sendBtn, footerBtn);
 
+  const clearBtns = document.querySelectorAll('.chatbox-footer-btn.clear-btn');
 
+  clearBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      
+      localStorage.removeItem('chatHistory');
+      location.reload();
+    });
+  });
 
 
 });
