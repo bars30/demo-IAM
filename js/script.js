@@ -16,11 +16,14 @@ import { setupThemeToggle } from './theme-toggler.js';
 import { restoreChatHistory, saveChatHistory } from './chat-history.js';
 import { addMessage, typeTextHTML, typeText } from './message-renderer.js';
 
+import { initFileManager, getSelectedFiles, clearSelectedFiles, updatePreview,
+  updateFileList } from './file-manager.js';
+
 document.addEventListener("DOMContentLoaded", () => {
 
   setupThemeToggle();
-   restoreChatHistory();
-  
+  restoreChatHistory();
+  initFileManager();
 
   const footerBtn = document.querySelectorAll(".footer-btn-cont button");
   const langButtons = document.querySelectorAll('.lang-option');
@@ -229,55 +232,6 @@ clearBtns.forEach(btn => {
 });
 
 
-const fileInput = document.getElementById("file-upload");
-const filePreviewContainer = document.getElementById("file-preview-container");
-
-let selectedFiles = [];
-
-fileInput.addEventListener("change", () => {
-  const newFile = fileInput.files[0]; 
-  if (!newFile) return;
-
-  if (selectedFiles.some(f => f.name === newFile.name)) {
-    fileInput.value = ""; 
-    return;
-  }
-
-  selectedFiles.push(newFile);
-
-  updatePreview();
-  updateFileList();
-  fileInput.value = ""; 
-});
-
-function updatePreview() {
-  filePreviewContainer.innerHTML = "";
-
-  selectedFiles.forEach((file, index) => {
-    const fileBlock = document.createElement("div");
-    fileBlock.className = "file-preview";
-    fileBlock.innerHTML = `
-      <div class="file-header">
-        <img src="./img/file.svg" alt="">
-        <span class="file-name">${file.name}</span>
-      </div>
-      <button class="remove-file">  <img src="./img/close.svg" alt=""></button>
-    `;
-    filePreviewContainer.appendChild(fileBlock);
-
-    fileBlock.querySelector(".remove-file").addEventListener("click", () => {
-      selectedFiles.splice(index, 1);
-      updatePreview();
-      updateFileList();
-    });
-  });
-}
-
-function updateFileList() {
-  const dt = new DataTransfer();
-  selectedFiles.forEach(f => dt.items.add(f));
-  fileInput.files = dt.files;
-}
 
 
 
@@ -287,7 +241,7 @@ let messageLeft = false;
 sendBtn.addEventListener("click", () => {
 setTimeout(() => {
     const userInput = chatboxInput.value.trim();
-  if (!userInput && selectedFiles.length === 0) return;
+  if (!userInput && getSelectedFiles().length === 0) return;
 
   promptsSection.classList.add("fade-out");
   promptsSection.classList.add("fade-out-display-none");
@@ -298,10 +252,10 @@ setTimeout(() => {
   }
 
 
-  if (selectedFiles.length > 0) {
+  if (getSelectedFiles().length > 0) {
     let filesHTML = "";
 
-    selectedFiles.forEach((file) => {
+    getSelectedFiles().forEach((file) => {
       filesHTML += `
         <div class="file-preview">
           <div class="file-header">
@@ -313,7 +267,7 @@ setTimeout(() => {
     });
 
     addMessage(filesHTML, "user",  false, null, true);
-    selectedFiles = [];          
+    clearSelectedFiles();       
     updatePreview();              
     updateFileList();             
   }
