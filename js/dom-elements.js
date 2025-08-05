@@ -5,9 +5,9 @@ export  const langButtons = document.querySelectorAll('.lang-option');
 let firstMessage = true;
 
   const promptButtons = document.querySelectorAll(".quick-prompts-btn");
-  const promptsSection = document.querySelector(".quick-prompts");
-  const chatboxMessages = document.querySelector(".chatbox-messages");
-  const questionsBtn = document.querySelector(".chatbox-footer-btn-questions");
+export  const promptsSection = document.querySelector(".quick-prompts");
+export  const chatboxMessages = document.querySelector(".chatbox-messages");
+export  const questionsBtn = document.querySelector(".chatbox-footer-btn-questions");
   const input = document.querySelector(".send-message");
 const footerPromptButtons = document.querySelectorAll('.quick-prompts-footer .quick-prompts-btn');
 const footerPrompts = document.querySelector(".quick-prompts-footer");

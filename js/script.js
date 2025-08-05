@@ -5,16 +5,21 @@ import {
   setCurrentLang
 } from "./lang-handler.js";
 
-// import { langButtons } from "./dom-elements.js";
+import { questionsBtn, promptsSection, chatboxMessages } from "./dom-elements.js";
 import { setupThemeToggle } from './theme-toggler.js';
+import { restoreChatHistory, saveChatHistory } from './chat-history.js';
 
 
 document.addEventListener("DOMContentLoaded", () => {
-setupThemeToggle();
-const footerBtn = document.querySelectorAll(".footer-btn-cont button");
+
+  setupThemeToggle();
+   restoreChatHistory();
+  
+
+  const footerBtn = document.querySelectorAll(".footer-btn-cont button");
   const langButtons = document.querySelectorAll('.lang-option');
- const langSwitcher = document.querySelector('.language-switcher');
- console.log(langSwitcher);
+  const langSwitcher = document.querySelector('.language-switcher');
+  console.log(langSwitcher);
  
 
   langButtons.forEach(button => {
@@ -64,50 +69,12 @@ if (localStorage.getItem("lang")) {
 
 
   const promptButtons = document.querySelectorAll(".quick-prompts-btn");
-  const promptsSection = document.querySelector(".quick-prompts");
-  const chatboxMessages = document.querySelector(".chatbox-messages");
-  const questionsBtn = document.querySelector(".chatbox-footer-btn-questions");
-  const input = document.querySelector(".send-message");
 
 
 
 
-function restoreChatHistory() {
-  const savedHistory = localStorage.getItem("chatHistory");
-  if (!savedHistory) return;
-
-  let chatData = JSON.parse(savedHistory);
-
-  if (
-    chatData.length >= 2 &&
-    chatData[chatData.length - 1].sender === "bot" &&
-    chatData[chatData.length - 1].text.replace(/<[^>]*>/g, '').trim() === ""
-  ) {
-    chatData.splice(chatData.length - 2, 2);
-  }
-
-  chatData.forEach((msg) => {
-    const msgDiv = document.createElement("div");
-    msgDiv.className = `message ${msg.sender}-message`;
-    msgDiv.innerHTML = msg.text;
-    chatboxMessages.appendChild(msgDiv);
-  });
-
-  if (chatData.length > 0) {
-    promptsSection.style.display = "none";
-    chatboxMessages.style.display = "flex";
-    input.classList.add("shrink");
-    questionsBtn.classList.add("visible");
-
-chatboxMessages.style.scrollBehavior = "auto";
-chatboxMessages.scrollTop = chatboxMessages.scrollHeight;
-chatboxMessages.style.scrollBehavior = ""; 
-
-  }
-}
 
 
-  restoreChatHistory();
 function typeText(container, text, delay = 15, callback) {
   let i = 0;
   container.textContent = '';
@@ -348,19 +315,7 @@ function addMessage(text, sender = "bot", animated = false, callback, file = fal
 }
 
 
-function saveChatHistory() {
-  const messages = document.querySelectorAll(".chatbox-messages .message");
-  const chatData = [];
 
-  messages.forEach((msg) => {
-    chatData.push({
-      sender: msg.classList.contains("user-message") ? "user" : "bot",
-      text: msg.innerHTML
-    });
-  });
-
-  localStorage.setItem("chatHistory", JSON.stringify(chatData));
-}
 
 
 
