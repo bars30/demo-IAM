@@ -472,13 +472,13 @@ setTimeout(() => {
   if (chatState === "waitingUserQuestion") {
     askedQuestions = userInput;
     let fullResponse = ``;
-    if (currentLang == "en") {
+    if (getCurrentLang() == "en") {
       fullResponse = `
       <p>Thank you for your message!</p>
       <p>To assist you better, please share your <b>full name</b> and <b>email address</b>.</p>
       <p>Unfortunately, I can't answer this question directly, but one of our consultants will reach out to you shortly.</p>
     `;
-    } else if (currentLang == "de") {
+    } else if (getCurrentLang() == "de") {
     fullResponse = `
     <p>Vielen Dank für Ihre Nachricht!</p>
     <p>Um Ihnen besser helfen zu können, teilen Sie uns bitte Ihren <b>vollständigen Namen</b> und Ihre <b>E-Mail-Adresse</b> mit.</p>
@@ -505,9 +505,9 @@ chatState = "done";
 
   } else if (chatState === "done") {
     let fullResponse = ``;
-      if (currentLang == "en") {
+      if (getCurrentLang() == "en") {
         fullResponse = `<p>We've already received your info. Our consultant will contact you soon.</p>`;
-      } else if (currentLang == "de") {
+      } else if (getCurrentLang() == "de") {
         fullResponse = `<p>Wir haben Ihre Angaben bereits erhalten. Einer unserer Berater wird sich in Kürze mit Ihnen in Verbindung setzen.</p>`;
       }
 
