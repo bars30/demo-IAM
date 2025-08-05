@@ -1,5 +1,3 @@
-// file-manager.js
-
 const fileInput = document.getElementById("file-upload");
 const filePreviewContainer = document.getElementById("file-preview-container");
 

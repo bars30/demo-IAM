@@ -42,9 +42,7 @@ export function restoreChatHistory() {
   }
 }
 
-/**
- * Պահպանում է զրույցի պատմությունը տեղական պահեստում։
- */
+
 export function saveChatHistory() {
   const messages = document.querySelectorAll(".chatbox-messages .message");
   const chatData = [];

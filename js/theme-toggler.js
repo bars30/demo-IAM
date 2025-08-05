@@ -1,5 +1,3 @@
-// theme-toggler.js կամ theme-handler.js
-
 export function setupThemeToggle() {
   const toggle = document.getElementById("modeToggle");
   const root = document.documentElement;

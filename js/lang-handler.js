@@ -1,10 +1,8 @@
-// import-ները
 import { botEnReplies } from "../lang/bot-replies.en.js";
 import { botDeReplies } from "../lang/bot-replies.de.js";
 import { uiTexts as enTexts } from "../lang/ui-texts.en.js";
 import { uiTexts as deTexts } from "../lang/ui-texts.de.js";
 
-// Լեզվի կարգավորման գլոբալ փոփոխականը
 let currentLang = localStorage.getItem("lang") || "en";
 function setCurrentLang(lang) {
   currentLang = lang;
@@ -14,7 +12,6 @@ function getCurrentLang() {
   return currentLang;
 }
 
-// Prompt թարգմանությունները
 const promptTranslations = {
   "Why Companies Choose Us": "Warum Unternehmen uns wählen",
   "Services for Clients": "Dienstleistungen für Kunden",
@@ -33,7 +30,7 @@ const reversePromptTranslations = Object.fromEntries(
   Object.entries(promptTranslations).map(([en, de]) => [de, en])
 );
 
-// updateUIText ֆունկցիան ամբողջությամբ
+
 function updateUIText() {
   const texts = currentLang === "de" ? deTexts : enTexts;
 
@@ -78,7 +75,6 @@ function updateUIText() {
   });
 }
 
-// getBotReply ֆունկցիան
 function getBotReply(prompt) {
   if (currentLang === "de") {
     return botDeReplies[prompt] || "<p>Antwort nicht gefunden.</p>";

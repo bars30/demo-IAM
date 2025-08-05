@@ -1,4 +1,3 @@
-// language-switcher.js
 import { setCurrentLang, updateUIText, getCurrentLang } from "./lang-handler.js";
 
 export function setupLanguageSwitcher() {
@@ -20,7 +19,6 @@ export function setupLanguageSwitcher() {
     });
   });
 
-  // Restore lang from localStorage
   const storedLang = localStorage.getItem('lang');
   if (storedLang) {
     langButtons.forEach(btn => btn.classList.remove('active'));
