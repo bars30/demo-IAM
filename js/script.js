@@ -43,17 +43,6 @@ setupLangButtonListeners();
   let firstMessage = true;
 
 
-  
-
-  document.querySelectorAll(".lang-option").forEach(button => {
-    button.addEventListener("click", () => {
-      let lang = button.getAttribute("data-lang");
-      setCurrentLang(lang);
-      localStorage.setItem("lang", lang);
-    
-      updateUIText();
-    });
-  });
 
   questionsBtn.addEventListener("click", () => {
     const footerPrompts = document.querySelector(".quick-prompts-footer");
