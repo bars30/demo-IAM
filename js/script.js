@@ -9,7 +9,8 @@ import {
   questionsBtn, 
   promptsSection,
   chatboxMessages,
-  input
+  input,
+  langButtons
   
 } from "./dom-elements.js";
 import { setupThemeToggle } from './theme-toggler.js';
@@ -19,43 +20,23 @@ import { addMessage, typeTextHTML, typeText } from './message-renderer.js';
 import { initFileManager, getSelectedFiles, clearSelectedFiles, updatePreview,
   updateFileList } from './file-manager.js';
 
+import { setupLanguageSwitcher } from './language-switcher.js';
+
 document.addEventListener("DOMContentLoaded", () => {
 
   setupThemeToggle();
   restoreChatHistory();
   initFileManager();
 
+  const { langSwitcher } = setupLanguageSwitcher();
+
   const footerBtn = document.querySelectorAll(".footer-btn-cont button");
-  const langButtons = document.querySelectorAll('.lang-option');
-  const langSwitcher = document.querySelector('.language-switcher');
   console.log(langSwitcher);
  
 
-  langButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      langButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-      const selectedLang = button.dataset.lang;
-    });
-  });
 
 let firstMessage = true;
 
-if (localStorage.getItem("lang")) {
-  const l =localStorage.getItem("lang");
-  langButtons.forEach(btn => btn.classList.remove('active'));
-  langButtons.forEach(button => {
-  
-
-      if (button.dataset.lang == l) {
-        button.classList.add('active');
-      } 
-  setTimeout(() => {
-    updateUIText();
-  }, 100);
-});
-
-}
 
 
 
