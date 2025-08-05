@@ -23,6 +23,8 @@ import { initFileManager, getSelectedFiles, clearSelectedFiles, updatePreview,
 import { setupLanguageSwitcher } from './language-switcher.js';
 import { setupChatController } from './chat-controller.js';
 
+import { setupPromptButtons } from "./prompt-buttons.js";
+
 document.addEventListener("DOMContentLoaded", () => {
 
   setupThemeToggle();
@@ -30,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initFileManager();
   setupChatController();
 
+  
   const { langSwitcher } = setupLanguageSwitcher();
 
   const footerBtn = document.querySelectorAll(".footer-btn-cont button");
@@ -60,98 +63,6 @@ let firstMessage = true;
 
 
 
-  const promptButtons = document.querySelectorAll(".quick-prompts-btn");
-
-
-
-
-
-
-
-
-  promptButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const selectedPrompt = btn.textContent;
-
-      promptButtons.forEach(b => b.disabled = true);
-      footerBtn[0].disabled = true;
-    footerBtn[1].disabled = true;
-      promptsSection.classList.add("fade-out");
-
-
-      setTimeout(() => {
-        promptsSection.style.display = "none";
-        chatboxMessages.style.display = "flex";
-        input.classList.add("shrink");
-        setTimeout(() => {
-          questionsBtn.classList.add("visible");
-        }, 200);
-      
-
-        const userMsg = document.createElement("div");
-        userMsg.className = "message user-message";
-        const userP = document.createElement("p");
-        userP.textContent = selectedPrompt;
-        userMsg.appendChild(userP);
-        chatboxMessages.appendChild(userMsg);
-        saveChatHistory();
-
-  
-  if (firstMessage && !!localStorage.getItem('chatHistory')) {
-    setTimeout(() => {
-          chatboxMessages.scrollTop = chatboxMessages.scrollHeight;
-        }, 50); 
-
-        
-    
-  } 
-  else {
-    setTimeout(() => {
-          chatboxMessages.scrollTop = chatboxMessages.scrollHeight;
-        }, 50); 
-  }
-
-        const botMsg = document.createElement("div");
-        botMsg.className = "message bot-message";
-        const botP = document.createElement("p");
-        botMsg.appendChild(botP);
-        chatboxMessages.appendChild(botMsg);
-        saveChatHistory();
-
-
-
-        if (firstMessage) {
-          firstMessage = false;
-          botMsg.classList.add("new-bot-message");
-        } else {
-          const element = document.querySelector('.new-bot-message');
-          if (element) {
-            element.classList.remove("new-bot-message");
-          }
-          botMsg.classList.add("new-bot-message");
-        }
-
-      saveChatHistory();
-
-questionsBtn.disabled = true;
-langButtons.forEach(b => b.disabled = true);
-langSwitcher.classList.add('disabled');
-sendBtn.disabled = true;
-footerBtn[0].disabled = true;
-    footerBtn[1].disabled = true;
-
-typeTextHTML(botP, getBotReply(selectedPrompt), 20, () => {
-  questionsBtn.disabled = false;
-  langButtons.forEach(b => b.disabled = !true);
-  langSwitcher.classList.remove('disabled');
-sendBtn.disabled = !true;
-footerBtn[0].disabled = !true;
-    footerBtn[1].disabled = !true;
-  saveChatHistory();
-});
-      }, 400);
-    });
-  });
 
   questionsBtn.addEventListener("click", () => {
     const footerPrompts = document.querySelector(".quick-prompts-footer");
@@ -169,18 +80,6 @@ footerBtn[0].disabled = !true;
   });
 
 
-const footerPromptButtons = document.querySelectorAll('.quick-prompts-footer .quick-prompts-btn');
-const footerPrompts = document.querySelector(".quick-prompts-footer");
-
-footerPromptButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    footerPrompts.classList.remove("fade-in");
-    footerPrompts.classList.add("fade-out");
-    setTimeout(() => {
-      footerPrompts.style.display = "none";
-    }, 300);
-  });
-});
 
 const textarea = document.getElementById('chatbox-input');
 
@@ -201,7 +100,7 @@ const sendBtn = document.querySelector(".chatbox-send-btn");
 
 
 
-
+setupPromptButtons(langSwitcher, sendBtn, footerBtn);
 
 
 const clearBtns = document.querySelectorAll('.chatbox-footer-btn.clear-btn');
