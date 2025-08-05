@@ -26,6 +26,8 @@ import { setupChatController } from './chat-controller.js';
 import { setupPromptButtons } from "./prompt-buttons.js";
 import { setupLangButtonListeners } from "./lang-button-listeners.js";
 import { setupQuickPromptsToggle } from "./quick-prompts-toggle.js";
+import { setupTextareaAutosize } from './input-autoresize.js';
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -45,11 +47,7 @@ setupLangButtonListeners();
 setupQuickPromptsToggle(questionsBtn);
 
   const textarea = document.getElementById('chatbox-input');
-
-  textarea.addEventListener('input', function () {
-    this.style.height = 'auto'; 
-    this.style.height = Math.min(this.scrollHeight, 80) + 'px'; 
-  });
+  setupTextareaAutosize(textarea);
 
   let chatState = "waitingUserQuestion"; 
 
